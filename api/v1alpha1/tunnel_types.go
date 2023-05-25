@@ -82,6 +82,22 @@ type CloudflareDetails struct {
 	CLOUDFLARE_TUNNEL_CREDENTIAL_SECRET string `json:"CLOUDFLARE_TUNNEL_CREDENTIAL_SECRET,omitempty"`
 }
 
+// Access spec describes how to validate a Cloudflare Access JWT token prior to proxying traffic to the origin.
+type AccessSpec struct {
+	//+kubebuilder:validation:Optional
+	//+kubebuilder:default:=true
+	// Is authentication required to access the origin?
+	Required bool `json:"required,omitempty"`
+
+	//+kubebuilder:validation:Required
+	// The organization team name to which the Access application belongs
+	TeamName string `json:"teamName,omitempty"`
+
+	//+kubebuilder:validation:Required
+	// A list of AUD tags for the Access application
+	AudTag []string `json:"audTag,omitempty"`
+}
+
 // TunnelSpec defines the desired state of Tunnel
 type TunnelSpec struct {
 	//+kubebuilder:validation:Minimum=0
@@ -122,6 +138,10 @@ type TunnelSpec struct {
 	// New tunnel object.
 	// NewTunnel and ExistingTunnel cannot be both empty and are mutually exclusive.
 	NewTunnel NewTunnel `json:"newTunnel,omitempty"`
+
+	//+kubebuilder:validation:Optional
+	// Access spec describes how to validate a Cloudflare Access JWT token prior to proxying traffic to the origin.
+	Access AccessSpec `json:"access,omitempty"`
 }
 
 // TunnelStatus defines the observed state of Tunnel
