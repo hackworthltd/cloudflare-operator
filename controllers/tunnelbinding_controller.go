@@ -580,6 +580,7 @@ func (r *TunnelBindingReconciler) configureCloudflareDaemon() error {
 			originRequest.ProxyAddress = &subject.Spec.ProxyAddress
 			originRequest.ProxyPort = &subject.Spec.ProxyPort
 			originRequest.ProxyType = &subject.Spec.ProxyType
+			originRequest.Access = AccessConfig(*subject.Spec.Access)
 			if caPool := subject.Spec.CaPool; caPool != "" {
 				caPath := fmt.Sprintf("/etc/cloudflared/certs/%s", caPool)
 				originRequest.CAPool = &caPath

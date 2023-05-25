@@ -82,6 +82,10 @@ type TunnelBindingSubjectSpec struct {
 	//+kubebuilder:default:=""
 	//+kubebuilder:validation:Enum:="";"socks"
 	ProxyType string `json:"proxyType,omitempty"`
+
+	// Access spec describes how to validate a Cloudflare Access JWT token prior to proxying traffic to the origin.
+	//+kubebuilder:validation:Optional
+	Access *AccessSpec `json:"access,omitempty"`
 }
 
 // TunnelRef defines the Tunnel TunnelBinding connects to

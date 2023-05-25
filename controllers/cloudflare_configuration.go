@@ -67,6 +67,8 @@ type OriginRequestConfig struct {
 	ProxyType *string `yaml:"proxyType,omitempty"`
 	// IP rules for the proxy service
 	IPRules []IngressIPRule `yaml:"ipRules,omitempty"`
+	// Access holds all access related configs
+	Access AccessConfig `yaml:"access,omitempty"`
 }
 
 // IngressIPRule is a cloudflared origin ingress IP rule config model
@@ -74,4 +76,16 @@ type IngressIPRule struct {
 	Prefix *string `yaml:"prefix,omitempty"`
 	Ports  []int   `yaml:"ports,omitempty"`
 	Allow  bool    `yaml:"allow,omitempty"`
+}
+
+// AccessConfig is a cloudflared access config model
+type AccessConfig struct {
+	// Required when set to true will fail every request that does not arrive through an access authenticated endpoint.
+	Required bool `yaml:"required,omitempty"`
+
+	// TeamName is the organization team name to get the public key certificates for.
+	TeamName string `yaml:"teamName"`
+
+	// AudTag is the AudTag to verify access JWT against.
+	AudTag []string `yaml:"audTag"`
 }

@@ -354,8 +354,10 @@ func createManagedResources(r GenericTunnelReconciler) (ctrl.Result, bool, error
 func configMapForTunnel(r GenericTunnelReconciler) *corev1.ConfigMap {
 	ls := labelsForTunnel(r.GetTunnel())
 	noTlsVerify := r.GetTunnel().GetSpec().NoTlsVerify
+	access := r.GetTunnel().GetSpec().Access
 	originRequest := OriginRequestConfig{
 		NoTLSVerify: &noTlsVerify,
+		Access:      AccessConfig(access),
 	}
 	if r.GetTunnel().GetSpec().OriginCaPool != "" {
 		defaultCaPool := "/etc/cloudflared/certs/tls.crt"
